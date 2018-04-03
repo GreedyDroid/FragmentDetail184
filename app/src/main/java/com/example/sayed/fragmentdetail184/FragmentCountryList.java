@@ -1,12 +1,14 @@
 package com.example.sayed.fragmentdetail184;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,6 +19,8 @@ import android.widget.ListView;
 public class FragmentCountryList extends Fragment {
 
     private ListView countryLV;
+    private MyItemClickListener myItemClickListener;
+
     public FragmentCountryList() {
         // Required empty public constructor
     }
@@ -36,5 +40,18 @@ public class FragmentCountryList extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ArrayAdapter<CharSequence>adapter =  ArrayAdapter.createFromResource(getContext(), R.array.countries,android.R.layout.simple_list_item_1);
         countryLV.setAdapter(adapter);
+        countryLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String countryName =  parent.getItemAtPosition(position).toString();
+                myItemClickListener.getItem(countryName);
+            }
+        });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        myItemClickListener = (MyItemClickListener) context;
     }
 }
